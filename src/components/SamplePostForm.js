@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { useHistory } from "react-router-dom"
 import { Form } from "react-final-form"
 import { InputControl, SelectControl, TextareaControl } from "components/form-fields"
 import { Heading, Box, Button, ButtonGroup, useToast } from "@chakra-ui/react"
@@ -6,13 +6,13 @@ import { useUsers } from "hooks/useUserQueries"
 import { useCreatePost, useUpdatePost, useDeletePost } from "hooks/usePostMutations"
 import _ from "lodash"
 
-const onSubmit = (values, createPost, updatePost, deletePost, toast, router) => {
+const onSubmit = (values, createPost, updatePost, deletePost, toast, history) => {
   const postValues = _.omit(values, ["action"])
 
   if (values.action === "create") {
     createPost(postValues, {
       onSuccess: (post) => {
-        router.push(`/edit/${post.id}`)
+        history.push(`/edit/${post.id}`)
         toast({
           title: "Post created !",
           description: `Your post (id ${post.id}) has been created successfully.`,
@@ -39,7 +39,7 @@ const onSubmit = (values, createPost, updatePost, deletePost, toast, router) => 
   if (values.action === "delete") {
     deletePost(postValues.id, {
       onSuccess: () => {
-        router.push("/")
+        history.push("/")
         toast({
           title: "Post deleted !",
           description: `Your post (id ${postValues.id}) has been deleted successfully.`,
@@ -69,7 +69,7 @@ const validateForm = (values) => {
 
 export const SamplePostForm = ({ post = null }) => {
   const toast = useToast()
-  const router = useRouter()
+  const history = useHistory()
   const { data: users, isLoading: usersLoading } = useUsers()
   const { mutate: createPost, isLoading: createPostLoading } = useCreatePost()
   const { mutate: updatePost, isLoading: updatePostLoading } = useUpdatePost()
@@ -84,7 +84,7 @@ export const SamplePostForm = ({ post = null }) => {
         {post && `Edit post (id: ${post.id})`}
       </Heading>
       <Form
-        onSubmit={(values) => onSubmit(values, createPost, updatePost, deletePost, toast, router)}
+        onSubmit={(values) => onSubmit(values, createPost, updatePost, deletePost, toast, history)}
         validate={validateForm}
         initialValues={post}
         render={({ handleSubmit, form, errors, submitting, values }) => (

@@ -1,5 +1,7 @@
+import { SamplePostForm } from "components/SamplePostForm"
+
 const Create = () => {
-  return <div>Create</div>
+  return <SamplePostForm />
 }
 
 export default Create

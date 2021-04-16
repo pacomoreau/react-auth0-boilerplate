@@ -1,10 +1,17 @@
 import React from "react"
 import { render } from "@testing-library/react"
-import { ChakraProvider } from "@chakra-ui/react"
+import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react"
 import theme from "./theme"
 
-const AllProviders = ({ children }) => <ChakraProvider theme={theme}>{children}</ChakraProvider>
+const Providers = ({ children }) => {
+  return (
+    <ChakraProvider resetCSS theme={theme}>
+      <ColorModeProvider options={{ useSystemColorMode: false }}>{children}</ColorModeProvider>
+    </ChakraProvider>
+  )
+}
 
-const customRender = (ui, options) => render(ui, { wrapper: AllProviders, ...options })
+const customRender = (ui, options = {}) => render(ui, { wrapper: Providers, ...options })
 
+export * from "@testing-library/react"
 export { customRender as render }

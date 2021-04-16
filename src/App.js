@@ -3,11 +3,17 @@ import { BrowserRouter, Switch } from "react-router-dom"
 import { Auth0Provider } from "@auth0/auth0-react"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react"
+import axios from "axios"
 import { AuthRoute } from "components/AuthRoute"
-import Home from "pages/Home"
-import Create from "pages/Create"
+import { Create, Edit, Error, Home } from "pages"
 import theme from "./theme"
 
+// Axios default configuration
+axios.defaults.baseURL = process.env.REACT_APP_API_BASEURL
+// todo: axios.defaults.headers.common["Authorization"] = "AUTH TOKEN"
+axios.defaults.headers.post["Content-Type"] = "application/json"
+
+// React Query configuration
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -35,6 +41,9 @@ const App = () => {
               <Switch>
                 <AuthRoute exact authenticated={true} path="/" children={<Home />} />
                 <AuthRoute exact authenticated={true} path="/create" children={<Create />} />
+                <AuthRoute exact authenticated={true} path="/edit/:id" children={<Edit />} />
+
+                <AuthRoute authenticated={false} path="*" children={<Error code={404} />} />
               </Switch>
             </QueryClientProvider>
           </ColorModeProvider>
