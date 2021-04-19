@@ -1,9 +1,11 @@
+import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Form } from "react-final-form"
 import { InputControl, SelectControl, TextareaControl } from "components/form-fields"
 import { Heading, Box, Button, ButtonGroup, useToast } from "@chakra-ui/react"
 import { useUsers } from "hooks/useUserQueries"
 import { useCreatePost, useUpdatePost, useDeletePost } from "hooks/usePostMutations"
+import { Confirmation } from "components/Confirmation"
 import _ from "lodash"
 
 const onSubmit = (values, createPost, updatePost, deletePost, toast, history) => {
@@ -74,6 +76,7 @@ export const SamplePostForm = ({ post = null }) => {
   const { mutate: createPost, isLoading: createPostLoading } = useCreatePost()
   const { mutate: updatePost, isLoading: updatePostLoading } = useUpdatePost()
   const { mutate: deletePost, isLoading: deletePostLoading } = useDeletePost()
+  const [isOpen, setIsOpen] = useState(false)
 
   const loading = post === null ? createPostLoading : updatePostLoading || deletePostLoading
 
@@ -118,14 +121,23 @@ export const SamplePostForm = ({ post = null }) => {
                   isDisabled={loading && values.action !== "delete"}
                   loadingText="Submitting"
                   type="submit"
-                  onClick={() => {
-                    form.change("action", "delete")
-                  }}
+                  onClick={() => setIsOpen(true)}
                 >
                   Delete
                 </Button>
               )}
             </ButtonGroup>
+            <Confirmation
+              title="Confirmation"
+              body="Are you sure to delete this post ?"
+              isOpen={isOpen}
+              onClose={() => setIsOpen(false)}
+              onConfirm={() => {
+                setIsOpen(false)
+                form.change("action", "delete")
+                form.submit()
+              }}
+            />
             <Box as="pre" my={10}>
               {JSON.stringify(values, null, 2)}
             </Box>
