@@ -9,6 +9,7 @@ import {
   ModalCloseButton,
   useColorMode,
 } from "@chakra-ui/react"
+import _ from "lodash"
 
 export const Confirmation = ({
   onConfirm,
@@ -31,12 +32,16 @@ export const Confirmation = ({
         {body && <ModalBody>{body}</ModalBody>}
 
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            {noLabel}
-          </Button>
-          <Button variant="ghost" onClick={onConfirm}>
-            {yesLabel}
-          </Button>
+          {noLabel && _.isFunction(onClose) && (
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              {noLabel}
+            </Button>
+          )}
+          {yesLabel && _.isFunction(onConfirm) && (
+            <Button variant="ghost" onClick={onConfirm}>
+              {yesLabel}
+            </Button>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>
