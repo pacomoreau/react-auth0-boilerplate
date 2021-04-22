@@ -7,6 +7,10 @@ import { AuthRoute } from "components/AuthRoute"
 import { Create, Edit, Error, Home } from "pages"
 import theme from "./theme"
 
+if (process.env.REACT_APP_API_MOCKING === "1") {
+  require("./mocks")
+}
+
 // React Query configuration
 const queryClient = new QueryClient({
   defaultOptions: {
