@@ -2,6 +2,7 @@ import axios from "axios"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { useAuth0 } from "@auth0/auth0-react"
 import { useHistory } from "react-router-dom"
+import { useToast } from "@chakra-ui/react"
 
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASEURL,
@@ -10,9 +11,10 @@ export const api = axios.create({
   },
 })
 
-export const useApiGet = (key, url, redirectIf404 = true) => {
+export const useApiGet = (key, url, redirectIf404 = true, displayError = true) => {
   const { getAccessTokenSilently } = useAuth0()
   const history = useHistory()
+  const toast = useToast()
 
   return useQuery(key, async () => {
     try {
@@ -23,17 +25,27 @@ export const useApiGet = (key, url, redirectIf404 = true) => {
 
       return response.data
     } catch (error) {
-      console.warn(error)
       if (redirectIf404 && error?.response?.status === 404) {
         history.push("/404")
+      }
+      if (displayError && error?.response?.status !== 404) {
+        toast({
+          id: "api-error-get",
+          title: "Something went wrong",
+          description: error?.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        })
       }
     }
   })
 }
 
-export const useApiPost = (url, itemsKey = null) => {
+export const useApiPost = (url, itemsKey = null, displayError = true) => {
   const queryClient = useQueryClient()
   const { getAccessTokenSilently } = useAuth0()
+  const toast = useToast()
 
   return useMutation(
     async (values) => {
@@ -45,7 +57,16 @@ export const useApiPost = (url, itemsKey = null) => {
 
         return response.data
       } catch (error) {
-        console.warn(error)
+        if (displayError) {
+          toast({
+            id: "api-error-post",
+            title: "Something went wrong",
+            description: error?.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          })
+        }
       }
     },
     {
@@ -58,9 +79,10 @@ export const useApiPost = (url, itemsKey = null) => {
   )
 }
 
-export const useApiPatch = (url, itemsKey = null, itemKey = null) => {
+export const useApiPatch = (url, itemsKey = null, itemKey = null, displayError = true) => {
   const queryClient = useQueryClient()
   const { getAccessTokenSilently } = useAuth0()
+  const toast = useToast()
 
   return useMutation(
     async (values) => {
@@ -72,7 +94,16 @@ export const useApiPatch = (url, itemsKey = null, itemKey = null) => {
 
         return response.data
       } catch (error) {
-        console.warn(error)
+        if (displayError) {
+          toast({
+            id: "api-error-patch",
+            title: "Something went wrong",
+            description: error?.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          })
+        }
       }
     },
     {
@@ -103,9 +134,10 @@ export const useApiPatch = (url, itemsKey = null, itemKey = null) => {
   )
 }
 
-export const useApiDelete = (url, itemsKey = null) => {
+export const useApiDelete = (url, itemsKey = null, displayError = true) => {
   const queryClient = useQueryClient()
   const { getAccessTokenSilently } = useAuth0()
+  const toast = useToast()
 
   return useMutation(
     async (postId) => {
@@ -117,7 +149,16 @@ export const useApiDelete = (url, itemsKey = null) => {
 
         return response.data
       } catch (error) {
-        console.warn(error)
+        if (displayError) {
+          toast({
+            id: "api-error-delete",
+            title: "Something went wrong",
+            description: error?.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          })
+        }
       }
     },
     {
