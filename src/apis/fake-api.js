@@ -30,7 +30,6 @@ export const useApiGet = (key, url, redirectIf404 = true, displayError = true) =
       }
       if (displayError && error?.response?.status !== 404) {
         toast({
-          id: "api-error-get",
           title: "Something went wrong",
           description: error?.message,
           status: "error",
@@ -59,7 +58,6 @@ export const useApiPost = (url, itemsKey = null, displayError = true) => {
       } catch (error) {
         if (displayError) {
           toast({
-            id: "api-error-post",
             title: "Something went wrong",
             description: error?.message,
             status: "error",
@@ -96,7 +94,6 @@ export const useApiPatch = (url, itemsKey = null, itemKey = null, displayError =
       } catch (error) {
         if (displayError) {
           toast({
-            id: "api-error-patch",
             title: "Something went wrong",
             description: error?.message,
             status: "error",
@@ -151,7 +148,6 @@ export const useApiDelete = (url, itemsKey = null, displayError = true) => {
       } catch (error) {
         if (displayError) {
           toast({
-            id: "api-error-delete",
             title: "Something went wrong",
             description: error?.message,
             status: "error",

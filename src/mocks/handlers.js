@@ -39,7 +39,7 @@ export const handlers = [
       return res(ctx.status(404))
     }
 
-    return res(ctx.json(post))
+    return res(ctx.delay(500), ctx.json(post))
   }),
   rest.post("/posts", (req, res, ctx) => {
     const post = { id: 123, ...req.body }
@@ -49,9 +49,9 @@ export const handlers = [
   rest.patch("/posts/:id", (req, res, ctx) => {
     const post = req.body
 
-    return res(ctx.json(post))
+    return res(ctx.delay(500), ctx.json(post))
   }),
   rest.delete("/posts/:id", (req, res, ctx) => {
-    return res(ctx.json({}))
+    return res(ctx.delay(500), ctx.json({}))
   }),
 ]

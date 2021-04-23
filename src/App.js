@@ -27,12 +27,12 @@ const queryClient = new QueryClient({
 
 const App = () => {
   return (
-    <Auth0Provider
-      domain={process.env.REACT_APP_AUTH0_DOMAIN}
-      clientId={process.env.REACT_APP_AUTH0_CLIENTID}
-      redirectUri={window.location.origin}
-    >
-      <BrowserRouter>
+    <BrowserRouter>
+      <Auth0Provider
+        domain={process.env.REACT_APP_AUTH0_DOMAIN}
+        clientId={process.env.REACT_APP_AUTH0_CLIENTID}
+        redirectUri={window.location.origin}
+      >
         <ChakraProvider resetCSS theme={theme}>
           <ColorModeProvider options={{ useSystemColorMode: false }}>
             <QueryClientProvider client={queryClient}>
@@ -46,8 +46,8 @@ const App = () => {
             </QueryClientProvider>
           </ColorModeProvider>
         </ChakraProvider>
-      </BrowserRouter>
-    </Auth0Provider>
+      </Auth0Provider>
+    </BrowserRouter>
   )
 }
 
