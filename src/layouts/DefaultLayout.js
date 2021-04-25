@@ -9,9 +9,8 @@ import {
 } from "@chakra-ui/react"
 import { Container } from "components/Container"
 import { Main } from "components/Main"
-import { Header } from "./Header"
 import { LoadingSkeleton } from "components/LoadingSkeleton"
-import MetaTags from "react-meta-tags"
+import { Header } from "./Header"
 
 export const DefaultLayout = ({ children }) => {
   const { isLoading, error } = useAuth0()
@@ -21,10 +20,6 @@ export const DefaultLayout = ({ children }) => {
 
   return (
     <Stack bg={bgColor[colorMode]} color={color[colorMode]}>
-      <MetaTags>
-        <title>React Auth0 Boilerplate</title>
-        <meta property="og:title" content="React Auth0 Boilerplate" />
-      </MetaTags>
       <Container minHeight="100vh">
         <Header />
         <Main>

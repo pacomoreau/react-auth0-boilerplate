@@ -20,7 +20,6 @@
     "react-error-boundary": "^3.1.1",
     "react-final-form": "^6.5.3",
     "react-icons": "^3.0.0",
-    "react-meta-tags": "^1.0.1",
     "react-query": "^3.13.9",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
@@ -28,6 +27,8 @@
     "web-vitals": "^0.2.2"
   },
   "devDependencies": {
+    "cypress": "^7.1.0",
+    "eslint-plugin-cypress": "^2.11.2",
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
@@ -36,6 +37,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:e2e": "cypress run",
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
