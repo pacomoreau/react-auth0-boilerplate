@@ -3,6 +3,7 @@ import { Route } from "react-router-dom"
 import { DefaultLayout } from "layouts/DefaultLayout"
 import { ErrorBoundary } from "react-error-boundary"
 import { ErrorFallback } from "components/ErrorFallback"
+import PropTypes from "prop-types"
 
 const Component = ({ children, Layout }) => (
   <Layout>
@@ -23,3 +24,8 @@ export const AuthRoute = ({ children, authenticated = true, Layout = DefaultLayo
     {!authenticated && <Component Layout={Layout}>{children}</Component>}
   </Route>
 )
+
+AuthRoute.propTypes = {
+  authenticated: PropTypes.bool,
+  Layout: PropTypes.elementType,
+}
