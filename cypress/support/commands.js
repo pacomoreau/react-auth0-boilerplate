@@ -7,19 +7,19 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("loginWithUI", (overrides = {}) => {
+  Cypress.log({
+    name: "loginWithUI",
+  })
+
+  cy.get("input[type=text]").type(Cypress.env("auth_username"))
+  cy.get("input[type=password]").type(Cypress.env("auth_password"))
+  cy.get("button[value=default]").click()
+
+  cy.location().should((loc) => {
+    const domain = new URL(Cypress.env("base_url"))
+    expect(loc.host).to.eq(domain.host)
+    expect(loc.pathname).to.eq("/")
+  })
+})

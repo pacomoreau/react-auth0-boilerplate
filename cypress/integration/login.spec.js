@@ -2,13 +2,17 @@
 
 context("Login", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/")
+    cy.visit(Cypress.env("base_url"))
   })
 
   it("redirect to login page", () => {
     cy.location().should((loc) => {
-      expect(loc.host).to.eq("dev-3p4qe21g.eu.auth0.com")
+      expect(loc.host).to.eq(Cypress.env("auth_domain"))
       expect(loc.pathname).to.eq("/u/login")
     })
+  })
+
+  it("successfully log test user", () => {
+    cy.loginWithUI()
   })
 })
